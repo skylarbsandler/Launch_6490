@@ -1,0 +1,11 @@
+﻿@model List<City>
+
+<h1>Cities in @ViewData["StateName"]</h1>
+<a href="/states/@ViewData["StateId"]/cities/new">New City</a>
+
+<ul>
+    @foreach (City city in Model)
+    {
+        <li>@city.Name: @city.State</li>
+    }
+</ul><a href="c:\users\skyla\source\repos\launch_6490\tourism\views\cities\index.cshtml">c:\users\skyla\source\repos\launch_6490\tourism\views\cities\index.cshtml</a>

@@ -14,7 +14,7 @@ namespace Tourism.Controllers
             _context = context;
         }
 
-        [Route("/states/{stateId:int}/cities")]
+        [Route("States/{stateId:int}/cities")]
         public IActionResult Index(int stateId)
         {
             var state = _context.States
@@ -22,25 +22,38 @@ namespace Tourism.Controllers
                 .Where(s => s.Id == stateId)
                 .First();
 
-            return View(state);
+            var cities = state.Cities;
+
+            ViewData["StateName"] = state.Name;
+            ViewData["StateId"] = state.Id;
+            return View(cities);
         }
 
-        public IActionResult New()
+        [Route("States/{stateId:int}/cities/new")]
+        public IActionResult New(int stateId)
         {
-            var state = _context.States;
+            var state = _context.States
+                .Include(s => s.Cities)
+                .Where(s => s.Id == stateId)
+                .First();
 
-            return View(state);
+            ViewData["StateName"] = state.Name;
+            ViewData["StateId"] = state.Id;
+            return View();
         }
 
-        //[Route("/states/{stateId:int}/cities")]
-        //public IActionResult Create(int stateId, City city)
-        //{
-        //    var city = _context.Cities.Find(stateId);
+        [HttpPost]
+        [Route("/states/{stateId:int}/cities")]
+        public IActionResult Create(int stateId, City city)
+        {
+            var state = _context.States
+                .Include(s => s.Cities)
+                .Where(s => s.Id == stateId)
+                .First();
+            state.Cities.Add(city);
+            _context.SaveChanges();
 
-        //    _context.Add(city);
-        //    _context.SaveChanges();
-
-        //    return RedirectToAction();
-        //}
+            return RedirectToAction("index", new { stateId = state.Id });
+        }
     }
 }

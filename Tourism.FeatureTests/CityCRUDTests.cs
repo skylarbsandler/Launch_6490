@@ -67,7 +67,7 @@ namespace Tourism.FeatureTests
                 { "Name", "Des Moines" }
             };
 
-            var response = await client.PostAsync("/states/1/cities", new FormUrlEncodedContent(formData));
+            var response = await client.PostAsync($"/states/1/cities", new FormUrlEncodedContent(formData));
             var html = await response.Content.ReadAsStringAsync();
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);

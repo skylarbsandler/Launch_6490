@@ -15,6 +15,22 @@ namespace Tourism.FeatureTests
         }
 
         [Fact]
+        public async Task New_ReturnsFormView()
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+
+            // Act
+            var response = await client.GetAsync("/states/new");
+            var html = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            Assert.Contains("Add a State", html);
+            Assert.Contains("<form method=\"post\" action=\"/states\">", html);
+        }
+
+        [Fact]
         public async void Index_ReturnsAllStates()
         {
             var context = GetDbContext();

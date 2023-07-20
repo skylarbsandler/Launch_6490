@@ -1,3 +1,10 @@
 ﻿@model State
 
 <h1>@Model.Name</h1>
+
+<p>Abbreviation: @Model.Abbreviation</p>
+
+<p>Cities in @ViewData["StateName"]</p>
+<a href="/states/@ViewData["StateId"]/cities/new">New City</a>
+
+
